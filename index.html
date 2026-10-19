@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>何心恩 | 個人 IP 視覺與影音作品集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* 圖片精準調色盤：#04203F, #052C58, #BC9C63, #21568C, #4797C9 */
+            --bg-deep: #04203F;
+            --bg-card: rgba(5, 44, 88, 0.6);
+            --border-color: rgba(188, 156, 99, 0.25);
+            --border-highlight: rgba(188, 156, 99, 0.7);
+
+            --accent-gold: #BC9C63;
+            --accent-blue-mid: #21568C;
+            --accent-blue-light: #4797C9;
+
+            --text-main: #f0f6fc;
+            --text-muted: #9bb2c9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 15% 25%, rgba(71, 151, 201, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(188, 156, 99, 0.28) 0%, transparent 50%),
+                linear-gradient(rgba(4, 32, 63, 0.82), rgba(4, 32, 63, 0.92)),
+                url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* 背景微光 */
+        .glow-1 {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(188, 156, 99, 0.25) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        .glow-2 {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            bottom: -200px;
+            right: -150px;
+            background: radial-gradient(circle, rgba(33, 86, 140, 0.4) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        /* 玻璃擬態卡片 */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(2, 16, 32, 0.4);
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-5px);
+            box-shadow: 0 18px 36px rgba(2, 16, 32, 0.6), 0 0 25px rgba(188, 156, 99, 0.2);
+        }
+
+        /* 導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(4, 32, 63, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 2.5rem;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+        }
+
+        .logo-badge {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.6rem;
+            background: linear-gradient(135deg, #BC9C63, #4797C9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #04203F;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 0.3rem;
+            background: rgba(5, 44, 88, 0.8);
+            padding: 0.35rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-item {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.55rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            color: #04203F;
+            background: linear-gradient(135deg, #BC9C63, #d8bc88);
+            font-weight: 700;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-dropdown {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            width: 100%;
+            background: rgba(4, 32, 63, 0.96);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+            flex-direction: column;
+            gap: 0.4rem;
+            z-index: 90;
+        }
+
+        .mobile-dropdown.open {
+            display: flex;
+        }
+
+        .mobile-dropdown button {
+            background: transparent;
+            border: none;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .mobile-dropdown button.active {
+            color: var(--accent-gold);
+            background: rgba(188, 156, 99, 0.15);
+        }
+
+        /* 主要頁面容器 */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 7.5rem 1.5rem 3rem 1.5rem;
+        }
+
+        .page-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .page-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-tag {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.8rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #BC9C63 0%, #21568C 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(188, 156, 99, 0.25);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* 首頁特色 */
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            align-items: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, #4797C9 0%, #BC9C63 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .avatar-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.2rem auto;
+            padding: 3px;
+            background: linear-gradient(135deg, #BC9C63, #4797C9);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #04203F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* 卡片設計 */
+        .card-img-placeholder {
+            height: 180px;
+            width: 100%;
+            background: #052C58;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 0.8rem;
+            left: 0.8rem;
+            background: rgba(4, 32, 63, 0.85);
+            padding: 0.25rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            border: 1px solid rgba(188, 156, 99, 0.3);
+        }
+
+        .card-info {
+            padding: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .yt-card {
+            cursor: pointer;
+        }
+
+        .play-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #BC9C63, #4797C9);
+            color: #04203F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* 聯絡列表 */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-icon {
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 0.6rem;
+            background: rgba(188, 156, 99, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 16, 32, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            position: relative;
+            width: 100%;
+            max-width: 750px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-highlight);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #04203F;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .iframe-box {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .iframe-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 1.8rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 850px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            header {
+                padding: 0.9rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+
+    <!-- 頂部導覽 -->
+    <header>
+        <div class="brand-logo" onclick="switchPage('home')">
+            <div class="logo-badge">EH</div>
+            <div>
+                <div style="font-weight: 700; font-size: 1.1rem; letter-spacing: 0.05em;" class="font-serif">Emma.H
+                </div>
+                <div style="font-size: 0.65rem; color: var(--accent-gold); letter-spacing: 0.1em;" class="font-mono">
+                    DESIGN & IP</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <button id="nav-home" class="nav-item active" onclick="switchPage('home')">首頁與關於</button>
+            <button id="nav-graphic" class="nav-item" onclick="switchPage('graphic')">平面設計</button>
+            <button id="nav-youtube" class="nav-item" onclick="switchPage('youtube')">YouTube</button>
+            <button id="nav-contact" class="nav-item" onclick="switchPage('contact')">聯絡資訊</button>
+        </nav>
+
+        <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <!-- 手機選單 -->
+    <div id="mobile-menu" class="mobile-dropdown">
+        <button id="mob-nav-home" class="active" onclick="switchPage('home'); toggleMenu();">首頁與關於 (Home &
+            About)</button>
+        <button id="mob-nav-graphic" onclick="switchPage('graphic'); toggleMenu();">平面設計 (Graphic Design)</button>
+        <button id="mob-nav-youtube" onclick="switchPage('youtube'); toggleMenu();">YouTube 影音 (YouTube)</button>
+        <button id="mob-nav-contact" onclick="switchPage('contact'); toggleMenu();">聯絡資訊 (Contact)</button>
+    </div>
+
+    <main>
+
+        <!-- PAGE 1: HOME & ABOUT ME (精簡版首頁與關於我) -->
+        <section id="home" class="page-content active">
+            <div class="hero-layout">
+                <div>
+                    <h1 class="hero-title font-serif">
+                        視覺 <br>
+                        <span class="hero-highlight">與影音創作</span>
+                    </h1>
+
+                    <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 2rem;">
+                        我是 心恩，專注於平面視覺 YouTube 封面與影片創作。
+                    </p>
+                    <p>曾經是朝九晚五的公務員，下班後把時間留給學習與探索喜歡的事物。</p>
+                    <p>.</p>
+                    <p>把複雜變簡單，把零散變有序，讓資訊、視覺與生活，都回到舒服的樣子。</p>
+                    <p>.</p>
+                    <p>把興趣變成能力，把喜歡的事融入生活，慢慢走成屬於自己的方向與事業。</p>
+                    <p>.</p>
+
+                    <div style="display: flex; gap: 0.9rem; flex-wrap: wrap;">
+                        <button onclick="switchPage('youtube')" class="btn btn-primary">看影音作品   ▶</button>
+                        <button onclick="switchPage('graphic')" class="btn btn-secondary">觀看平面作品</button>
+                    </div>
+                </div>
+
+                <!-- 右側個人簡介卡片 -->
+                <div class="glass-card" style="padding: 2rem; text-align: center;">
+                    <div class="avatar-box">
+                        <div class="avatar-img">🪶</div>
+                    </div>
+                    <h3 style="font-size: 1.3rem; font-weight: 700;" class="font-serif"> 何心恩 </h3>
+                    <p style="color: var(--accent-gold); font-size: 0.8rem; margin-top: 0.2rem;" class="font-mono">
+                        @emma.H</p>
+
+                    <div class="stats-grid font-mono">
+                        <div>
+                            <div class="stat-num">POSTER</div>
+                            <!--<div class="stat-label">待修改</div>-->
+                        </div>
+                        <div>
+                            <div class="stat-num">YOUTUBE</div>
+                            <!--<div class="stat-label">待修改</div>-->
+                        </div>
+                        <div>
+                            <div class="stat-num">MUSIC</div>
+                            <!--<div class="stat-label">待修改</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 精簡技能列 -->
+            <div class="glass-card" style="padding: 1.8rem; margin-top: 1rem;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--accent-gold);"
+                    class="font-serif">
+                    // 專業技能 SKILLS
+                </h3>
+                <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;" class="font-mono">
+                    <span
+                        style="background: rgba(188, 156, 99, 0.15); border: 1px solid var(--border-color); padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.85rem;">Photoshop
+                        / Illustrator</span>
+                    <span
+                        style="background: rgba(188, 156, 99, 0.15); border: 1px solid var(--border-color); padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.85rem;">Premiere
+                        Pro</span>
+                    <span
+                        style="background: rgba(188, 156, 99, 0.15); border: 1px solid var(--border-color); padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.85rem;">Canva
+                        / Capcut</span>
+                    <span
+                        style="background: rgba(188, 156, 99, 0.15); border: 1px solid var(--border-color); padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.85rem;">HTML
+                        / Pure CSS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: GRAPHIC DESIGN (平面設計) -->
+        <section id="graphic" class="page-content">
+            <div class="section-header">
+                <span class="section-tag font-mono">// PORTFOLIO</span>
+                <h2 class="section-title font-serif">平面設計作品</h2>
+            </div>
+
+            <div class="grid-2">
+
+            
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(33, 86, 140, 0.7), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">  · ILLUSTRATOR ·  </span>
+                        <span style="font-size: 2rem; color: #BC9C63;"> <img src="./img/20261015 曲線漸層.png" width="300">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title font-serif">漸層</h3>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · ILLUSTRATOR ·  </span>
+                        <span style="font-size: 2rem; color: #BC9C63;"> <img src="./img/20261015背景漸層 3.png" width="300"
+                                height="200"> </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">漸層</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(188, 156, 99, 0.35), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · PHOTOSHOP ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/sekkisei save the blue lotion 4.png" width="300" height="200"
+                                style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title font-serif">商品文宣</h3>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · PHOTOSHOP ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;"> <img src="./img/kiehls5.png" width="300" height="200"
+                                style="object-fit:contain;"> </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">商品文宣</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · PHOTOSHOP ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;"> <img src="./img/mockup healing time3.png"
+                                width="300" height="200"> </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">網頁設計</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · PHOTOSHOP ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;"> <img src="./img/mockup healing time33.png"
+                                width="300" height="200"> </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">網頁設計</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI 四季春.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">季節海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI 四季夏.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">季節海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI 四季秋.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">季節海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI四季冬.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">季節海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · CANVA ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/canva海報2.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · CANVA ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/canva海報3.jpg" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI 中秋1.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">節日海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI POSTER ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI 中秋2.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">節日海報</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI LOGO ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI logo.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">LOGO設計</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="overflow: hidden;">
+                    <div class="card-img-placeholder"
+                        style="background-image: linear-gradient(135deg, rgba(71, 151, 201, 0.5), rgba(4, 32, 63, 0.95));">
+                        <span class="card-tag font-mono">   · AI LOGO ·   </span>
+                        <span style="font-size: 2rem; color: #BC9C63;">
+                            <img src="./img/AI logo2.png" width="300" height="200" style="object-fit:contain;">
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <card-title class="card-title font-serif">LOGO設計</card-title>
+                        <!--<p class="card-desc">待修改</p>-->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PAGE 3: YOUTUBE VIDEOS (YouTube 影音) -->
+        <section id="youtube" class="page-content">
+            <div class="section-header">
+                <span class="section-tag font-mono">// VIDEOS</span>
+                <h2 class="section-title font-serif">YouTube 影音</h2>
+            </div>
+
+            <div class="grid-3">
+                <div class="glass-card yt-card" onclick="openModal('dQw4w9WgXcQ', '【設計實戰】深海湛藍與閃耀金質感網頁')">
+                    <div class="card-img-placeholder"
+                        style="background: linear-gradient(135deg, rgba(33, 86, 140, 0.6), #04203F);">
+                        <div class="play-btn">
+                            <!-- ▶ -->
+                            <img src="./img/封面照片3.png" alt="" style="width: 300px; height: 200px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div style="color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 0.3rem;"
+                            class="font-mono">🔥 520,000+ Views</div>
+                        <h3 class="card-title font-serif">一個人也很好</h3>
+                        <audio controls>
+                            <source src="./mp3/一個人也很好 2分47.mp3" type="audio/mpeg">
+                            您的瀏覽器不支援 HTML5 audio 元素。
+                        </audio>
+
+                    </div>
+                </div>
+
+                
+                <div class="glass-card yt-card" onclick="openModal('dQw4w9WgXcQ', '【設計實戰】深海湛藍與閃耀金質感網頁')">
+                    <div class="card-img-placeholder"
+                        style="background: linear-gradient(135deg, rgba(33, 86, 140, 0.6), #04203F);">
+                        <div class="play-btn">
+                            <!-- ▶ -->
+                            <img src="./img/1792129152687.png" alt="" style="width: 300px; height: 200px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div style="color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 0.3rem;"
+                            class="font-mono">🔥 520,000+ Views</div>
+                        <h3 class="card-title font-serif">一個人也很好</h3>
+                        <audio controls>
+                            <source src="./mp3/判斷錯.mp3" type="audio/mpeg">
+                            您的瀏覽器不支援 HTML5 audio 元素。
+                        </audio>
+
+                    </div>
+                </div>
+
+                
+                <div class="glass-card yt-card" onclick="openModal('dQw4w9WgXcQ', '【設計實戰】深海湛藍與閃耀金質感網頁')">
+                    <div class="card-img-placeholder"
+                        style="background: linear-gradient(135deg, rgba(33, 86, 140, 0.6), #04203F);">
+                        <div class="play-btn">
+                            <!-- ▶ -->
+                            <img src="./img/1792129152638.png" alt="" style="width: 300px; height: 200px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div style="color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 0.3rem;"
+                            class="font-mono">🔥 520,000+ Views</div>
+                        <h3 class="card-title font-serif">一個人也很好</h3>
+                        <audio controls>
+                            <source src="./mp3/後來我才明白.mp3" type="audio/mpeg">
+                            您的瀏覽器不支援 HTML5 audio 元素。
+                        </audio>
+
+                    </div>
+                </div>
+
+                <div class="glass-card yt-card" onclick="openModal('dQw4w9WgXcQ', '【設計實戰】深海湛藍與閃耀金質感網頁')">
+                    <div class="card-img-placeholder"
+                        style="background: linear-gradient(135deg, rgba(33, 86, 140, 0.6), #04203F);">
+                        <div class="play-btn">
+                            <!-- ▶ -->
+                            <img src="./img/1792129152587.png" alt="" style="width: 300px; height: 200px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div style="color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 0.3rem;"
+                            class="font-mono">🔥 520,000+ Views</div>
+                        <h3 class="card-title font-serif">一個人也很好</h3>
+                        <audio controls>
+                            <source src="./mp3/" type="audio/mpeg">
+                            您的瀏覽器不支援 HTML5 audio 元素。
+                        </audio>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- PAGE 4: CONTACT INFO (聯絡資訊) -->
+        <section id="contact" class="page-content">
+            <div class="section-header">
+                <span class="section-tag font-mono">// CONTACT</span>
+                <h2 class="section-title font-serif">個人聯絡資訊</h2>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-card" style="padding: 2rem;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="contact-item">
+                            <div class="contact-icon">👤</div>
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-muted);" class="font-mono">NAME</span>
+                                <div style="font-weight: 700; font-size: 1.1rem;">何心恩</div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-muted);"
+                                    class="font-mono">PHONE</span>
+                                <div style="font-weight: 700; font-size: 1.1rem;" class="font-mono">+886 987-654-321
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-muted);"
+                                    class="font-mono">EMAIL</span>
+                                <div style="font-weight: 700; font-size: 1rem; color: var(--accent-gold);"
+                                    class="font-mono">emmahocn@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card"
+                    style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;" class="font-serif">社群平台
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.7rem;" class="font-mono">
+                            <a href="https://www.youtube.com/channel/UCkZF3qh_bjxjmnDQ4yiz6Tg"
+                                style="color: var(--text-main); text-decoration: none; padding: 0.8rem; background: rgba(255,255,255,0.03); border-radius: 0.5rem; border: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+                                <span>▶ YouTube Channel</span> ↗
+                            </a>
+                            <a href="#"
+                                style="color: var(--text-main); text-decoration: none; padding: 0.8rem; background: rgba(255,255,255,0.03); border-radius: 0.5rem; border: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+                                <span>📸 Instagram</span> ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; padding: 0.8rem; border-radius: 0.5rem; background: rgba(33, 86, 140, 0.3); border: 1px solid rgba(188, 156, 99, 0.3); color: var(--accent-gold); font-size: 0.8rem;"
+                        class="font-mono">
+                        ● STATUS: OPEN FOR PROJECTS
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="videoModal" class="video-modal" onclick="closeModal()">
+        <div class="modal-body" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <h3 id="modalTitle" style="margin-bottom: 1rem; font-size: 1rem;" class="font-serif">影片</h3>
+            <div class="iframe-box">
+                <iframe id="ytIframe" src="" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="font-mono">&copy; 2026 Emma.h DESIGN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.mobile-dropdown button').forEach(b => b.classList.remove('active'));
+
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) targetPage.classList.add('active');
+
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            const activeMob = document.getElementById(`mob-nav-${pageId}`);
+            if (activeMob) activeMob.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
+
+        function openModal(videoId, title) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('ytIframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            document.getElementById('videoModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('ytIframe').src = '';
+            document.getElementById('videoModal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>
